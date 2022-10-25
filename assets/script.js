@@ -138,11 +138,13 @@ function renderScores() {
     scoreList.innerHTML = "";
     scoreList.style.display ='block';
 
+    var highScore = sort();
+
     for (var i = 0; i < scores.length; i++) {
-        var highScore = scores[i];
+        var item = highScore[i];
 
         var li = document.createElement("li");
-        li.textContent = highScore.initials + " - " +highScore.score;
+        li.textContent = item.initials + " - " +item.score;
         li.setAttribute("data-index", i);
         li.style.backgroundColor = 'rgb(' + [210, 186, 236, 0.531].join(',') + ')'; 
         scoreList.appendChild(li);
@@ -153,13 +155,27 @@ function renderScores() {
 
 function init() {
     var storedScores = JSON.parse(localStorage.getItem("scores"));
-
-    if (storedScores != null) {
+    
+    if (storedScores !== null) {
         scores = storedScores;
     } else {
-        scoreList.innerHTML = '';
-    }
+        scores = [];
+    };
+    return scores;
 };
+
+function sort() {
+    var unsortedList = init();
+    if (init == null) {
+        return;
+    } else {
+        unsortedList.sort(function(a, b) {
+            return b.score - a.score;
+        })
+        
+    return unsortedList;
+    };
+}; 
 
 function storeScores() {
     var highScore = {
