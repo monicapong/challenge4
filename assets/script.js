@@ -44,12 +44,35 @@ var answer4 = document.querySelector('#answer4');
 
 var questionNumber = 0;
 
+var secondsLeft = 75;
+var questionCount = 1;
+var timeEl = document.querySelector('.time');
+var finish = document.querySelector('.finish');
+
+//A timer that starts with 75 seconds. It stops when the user finishes the quiz, or displays "Time is up!" on the score page if the timer reaches 0 before the user finishes it.
+function setTime() {
+    var timerInterval = setInterval(function() {
+        secondsLeft--;
+        timeEl.textContent = "Time: " + secondsLeft;
+
+        if (secondsLeft === 0) {
+            clearInterval(timerInterval);
+            finish.textContent = "Time is up!";
+            gameOver();
+        }else if(questionCount >= questionBank.length + 1) {
+            clearInterval(timerInterval);
+            gameOver();
+        }
+    }, 1000);
+};
+
 //The first question is displayed and the timer begins
 function startQuiz () {
     intro.style.display = 'none';
     checkGuess.style.display = 'none';
     quiz.style.display = 'block';
     questionNumber = 0;
+    setTime();
     showQuestion(questionNumber);
 };
 
@@ -80,6 +103,7 @@ function checkAnswer(event) {
         checkGuess.textContent = 'Correct!';
     } else {
         checkGuess.textContent = 'Wrong!';
+        secondsLeft = secondsLeft - 10;
     };
 
     if (questionNumber < questionBank.length -1) {
@@ -87,13 +111,15 @@ function checkAnswer(event) {
     } else {
         gameOver();
     }
+
+    questionCount++;
 };
 
 //Displays the users score 
 function gameOver() {
     quiz.style.display = 'none';
     completedQuiz.style.display = 'block';
-    finalScore.textContent = 'Your final score is';
+    finalScore.textContent = 'Your final score is ' + secondsLeft + '.';
 }
 
 //When an answer choice is clicked, then the checkAnswer function runs 
