@@ -137,16 +137,18 @@ guess.forEach(function(click) {
 function renderScores() {
     scoreList.innerHTML = "";
     scoreList.style.display ='block';
-    
+
     for (var i = 0; i < scores.length; i++) {
         var highScore = scores[i];
 
         var li = document.createElement("li");
         li.textContent = highScore.initials + " - " +highScore.score;
         li.setAttribute("data-index", i);
-        li.style.backgroundColor = "121, 21, 235|transparent"
+        li.style.backgroundColor = 'rgb(' + [210, 186, 236, 0.531].join(',') + ')'; 
         scoreList.appendChild(li);
     };
+
+    init();
 };
 
 function init() {
@@ -154,9 +156,10 @@ function init() {
 
     if (storedScores != null) {
         scores = storedScores;
+    } else {
+        scoreList.innerHTML = '';
     }
-    renderScores();
-}
+};
 
 function storeScores() {
     var highScore = {
