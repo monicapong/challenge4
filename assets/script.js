@@ -43,11 +43,19 @@ var answer3 = document.querySelector('#answer3');
 var answer4 = document.querySelector('#answer4');
 
 var questionNumber = 0;
-
-var secondsLeft = 75;
 var questionCount = 1;
+var secondsLeft = 75;
+
 var timeEl = document.querySelector('.time');
 var finish = document.querySelector('.finish');
+var viewHighScore = document.querySelector('.view_highscores');
+var highScores = document.querySelector('.high_scores');
+var scoreList = document.querySelector('.score_list');
+var scores = [];
+var initialsInput = document.querySelector('#initials');
+var submitBtn = document.querySelector('.submit_button');
+var backBtn = document.querySelector('.back_btn');
+var clearBtn = document.querySelector('.clear_btn');
 
 //A timer that starts with 75 seconds. It stops when the user finishes the quiz, or displays "Time is up!" on the score page if the timer reaches 0 before the user finishes it.
 function setTime() {
@@ -69,7 +77,6 @@ function setTime() {
 //The first question is displayed and the timer begins
 function startQuiz () {
     intro.style.display = 'none';
-    checkGuess.style.display = 'none';
     quiz.style.display = 'block';
     questionNumber = 0;
     setTime();
@@ -125,4 +132,75 @@ function gameOver() {
 //When an answer choice is clicked, then the checkAnswer function runs 
 guess.forEach(function(click) {
     click.addEventListener('click', checkAnswer);
+});
+
+function renderScores() {
+    scoreList.innerHTML = "";
+    scoreList.style.display ='block';
+    
+    for (var i = 0; i < scores.length; i++) {
+        var highScore = scores[i];
+
+        var li = document.createElement("li");
+        li.textContent = highScore.initials + " - " +highScore.score;
+        li.setAttribute("data-index", i);
+        li.style.backgroundColor = "121, 21, 235|transparent"
+        scoreList.appendChild(li);
+    };
+};
+
+function init() {
+    var storedScores = JSON.parse(localStorage.getItem("scores"));
+
+    if (storedScores != null) {
+        scores = storedScores;
+    }
+    renderScores();
+}
+
+function storeScores() {
+    var highScore = {
+        initials: initialsInput.value.trim(),
+        score: secondsLeft
+    };
+
+    if (highScore === "") {
+        return;
+    };
+
+    scores.push(highScore);
+
+
+    localStorage.setItem("scores", JSON.stringify(scores));
+    renderScores();
+}
+
+submitBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    completedQuiz.style.display = 'none';
+    highScores.style.display = 'block';
+    storeScores();
+}); 
+
+init();
+
+viewHighScore.addEventListener('click', function(event) {
+    event.preventDefault();
+    intro.style.display = 'none';
+    quiz.style.display = 'none';
+    completedQuiz.style.display = 'none';
+    checkGuess.style.display = 'none';
+    highScores.style.display = 'block';
+    renderScores();
+});
+
+backBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+    location.reload();
+});
+
+clearBtn.addEventListener('click', function(event) {
+    event.preventDefault();
+    localStorage.clear();
+    renderScores();
 });
