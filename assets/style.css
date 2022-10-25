@@ -130,7 +130,6 @@ li {
 .score_list {
     margin-top: 10px;
     padding: 5px;
-    background-color: rgba(210, 186, 236, 0.531)
 }
 
 .score_btns {
@@ -145,12 +144,15 @@ li {
     font-size: 18px;
 }
 
+.view_highscores:hover {
+    cursor: pointer;
+}
+
 .button:hover {
     background-color: rgb(121, 21, 235);
 }
 
 .view_highscores:hover {
-    cursor: pointer;
     color: rgb(121, 21, 235);
 }
 
