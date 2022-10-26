@@ -57,28 +57,34 @@ var submitBtn = document.querySelector('.submit_button');
 var backBtn = document.querySelector('.back_btn');
 var clearBtn = document.querySelector('.clear_btn');
 
-//A timer that starts with 75 seconds. It stops when the user finishes the quiz, or displays "Time is up!" on the score page if the timer reaches 0 before the user finishes it.
 function setTime() {
+    //Sets interval in variable
     var timerInterval = setInterval(function() {
         secondsLeft--;
         timeEl.textContent = "Time: " + secondsLeft;
 
         if (secondsLeft === 0) {
+            //Stops execution of action at set interval
             clearInterval(timerInterval);
+            //Sets h1 element to "Time is up!"
             finish.textContent = "Time is up!";
+            //Calls gameOver to display the final score of 0
             gameOver();
         }else if(questionCount >= questionBank.length + 1) {
+            //Stops execution of action at set intervel
             clearInterval(timerInterval);
+            //Calls gameOver to display the final score
             gameOver();
         }
     }, 1000);
 };
 
-//The first question is displayed and the timer begins
 function startQuiz () {
     intro.style.display = 'none';
+    //Displays first question
     quiz.style.display = 'block';
     questionNumber = 0;
+    //Starts timer
     setTime();
     showQuestion(questionNumber);
 };
@@ -93,7 +99,7 @@ function showQuestion (n) {
     questionNumber = n;
 };
 
-//When the "Start Quiz" button is clicked then the first question comes up and the timer begins
+//Add click event to startBtn element to start the timer and display the first question
 startBtn.addEventListener("click", startQuiz);
 
 //Tells the user if they answered the question correct or wrong
@@ -106,10 +112,12 @@ function checkAnswer(event) {
         checkGuess.style.display = 'none';
     }, 1000);
 
+    //Tests if correct answer condition is met
     if (questionBank[questionNumber].answer == event.target.value) {
         checkGuess.textContent = 'Correct!';
     } else {
         checkGuess.textContent = 'Wrong!';
+        //10 second penalty for wrong answers
         secondsLeft = secondsLeft - 10;
     };
 
@@ -129,17 +137,19 @@ function gameOver() {
     finalScore.textContent = 'Your final score is ' + secondsLeft + '.';
 }
 
-//When an answer choice is clicked, then the checkAnswer function runs 
+//Add click event for guess element to call checkAnswer
 guess.forEach(function(click) {
     click.addEventListener('click', checkAnswer);
 });
 
+//Renders initials and scores into a score list as <li> elemenets
 function renderScores() {
     scoreList.innerHTML = "";
     scoreList.style.display ='block';
 
     var highScore = sort();
 
+    //Render new li for each score
     for (var i = 0; i < scores.length; i++) {
         var item = highScore[i];
 
@@ -154,8 +164,10 @@ function renderScores() {
 };
 
 function init() {
+    //Retrieve stored scores from local storage
     var storedScores = JSON.parse(localStorage.getItem("scores"));
     
+    //Create an array for the scores
     if (storedScores !== null) {
         scores = storedScores;
     } else {
@@ -164,6 +176,7 @@ function init() {
     return scores;
 };
 
+//Sort scores from highest to lowest
 function sort() {
     var unsortedList = init();
     if (init == null) {
@@ -177,6 +190,7 @@ function sort() {
     };
 }; 
 
+//Store scores and initials to local storage 
 function storeScores() {
     var highScore = {
         initials: initialsInput.value.trim(),
@@ -187,39 +201,52 @@ function storeScores() {
         return;
     };
 
+    //Push highScore values to scores array
     scores.push(highScore);
 
-
+    //Stringify and set key in localStorage to scores array
     localStorage.setItem("scores", JSON.stringify(scores));
     renderScores();
 }
 
+//Add click event to submitBtn element
 submitBtn.addEventListener("click", function(event) {
     event.preventDefault();
     completedQuiz.style.display = 'none';
+    //Displays high scores
     highScores.style.display = 'block';
+    //Calls storeScores to push data to localStorage
     storeScores();
 }); 
 
+//Calls init to retrieve data and render it to the page on load
 init();
 
+//Add click event to viewHighscore element
 viewHighScore.addEventListener('click', function(event) {
     event.preventDefault();
     intro.style.display = 'none';
     quiz.style.display = 'none';
     completedQuiz.style.display = 'none';
     checkGuess.style.display = 'none';
+    //Displays high scores
     highScores.style.display = 'block';
+    //Re-renders the high score list
     renderScores();
 });
 
+//Add click event to backBtn element
 backBtn.addEventListener("click", function(event) {
     event.preventDefault();
+    //Go back to main page
     location.reload();
 });
 
+//Add click event to clearBtn element
 clearBtn.addEventListener('click', function(event) {
     event.preventDefault();
+    //Clears data from localStorage
     localStorage.clear();
+    //Re-renders the high score list
     renderScores();
 });
