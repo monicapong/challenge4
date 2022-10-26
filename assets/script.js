@@ -170,7 +170,7 @@ function init() {
     if (storedScores !== null) {
         scores = storedScores;
     } else {
-        //If stored doesn't exist, set scores to an empty array.
+        //If stored value doesn't exist, set scores to an empty array
         scores = [];
     };
     return scores;
@@ -179,9 +179,11 @@ function init() {
 //Sort scores from highest to lowest
 function sort() {
     var unsortedList = init();
+    //If scores from init function doesn't exist, exit function 
     if (init == null) {
         return;
     } else {
+        //Sort scores from highest value to lowest
         unsortedList.sort(function(a, b) {
             return b.score - a.score;
         })
@@ -192,11 +194,13 @@ function sort() {
 
 //Store scores and initials to local storage 
 function storeScores() {
+    //Save initials and score values to highScore
     var highScore = {
         initials: initialsInput.value.trim(),
         score: secondsLeft
     };
 
+    //If highScore doesn't exist, exit function
     if (highScore === "") {
         return;
     };
@@ -207,7 +211,7 @@ function storeScores() {
     //Stringify and set key in localStorage to scores array
     localStorage.setItem("scores", JSON.stringify(scores));
     renderScores();
-}
+};
 
 //Add click event to submitBtn element
 submitBtn.addEventListener("click", function(event) {
