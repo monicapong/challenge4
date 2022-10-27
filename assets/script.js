@@ -1,4 +1,4 @@
-//Access element using querySelector
+//Access element using class
 var viewHighScore = document.querySelector('.view_highscores');
 var timeEl = document.querySelector('.time');
 var intro = document.querySelector('.intro');
@@ -6,20 +6,22 @@ var startBtn = document.querySelector('.start_button');
 var quiz = document.querySelector('.quiz');
 var askQuestion = document.querySelector('.ask_question');
 var guess = document.querySelectorAll(".multiple_choice");
-var answer1 = document.querySelector('#answer1');
-var answer2 = document.querySelector('#answer2');
-var answer3 = document.querySelector('#answer3');
-var answer4 = document.querySelector('#answer4');
 var checkGuess = document.querySelector('.check_guess');
 var completedQuiz = document.querySelector('.completed_quiz');
 var finalScore = document.querySelector('.final_score')
 var finish = document.querySelector('.finish');
 var highScores = document.querySelector('.high_scores');
 var scoreList = document.querySelector('.score_list');
-var initialsInput = document.querySelector('#initials');
 var submitBtn = document.querySelector('.submit_button');
 var backBtn = document.querySelector('.back_btn');
 var clearBtn = document.querySelector('.clear_btn');
+
+//Access element using id
+var answer1 = document.querySelector('#answer1');
+var answer2 = document.querySelector('#answer2');
+var answer3 = document.querySelector('#answer3');
+var answer4 = document.querySelector('#answer4');
+var initialsInput = document.querySelector('#initials');
 
 //Question bank for the coding quiz challenge
 var questionBank = [
