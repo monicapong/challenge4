@@ -29,9 +29,9 @@ The remaining time left is the final score. The user can then save their initial
 ![Image of completed quiz page](assets/images/completedquiz.png)
 ![Image of high score board](assets/images/highscore.png)
 
-Link to deployed application: https://monicapong.github.io/challenge4codingquiz 
+Link to deployed application: https://monicapong.github.io/codeQuiz 
 
 ## License
 
 Please refer to the GitHub Repository for licensing information.
-Link to GitHub repository: https://github.com/monicapong/challenge4codingquiz
+Link to GitHub repository: https://github.com/monicapong/codeQuiz
